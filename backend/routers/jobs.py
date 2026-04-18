@@ -2,7 +2,9 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from services.matcher import match_jobs
+from services.scraper import get_real_time_jobs
 from models.schemas import JobMatch
+from services.parser import extract_skills
 import json
 import os
 from typing import List
@@ -15,17 +17,45 @@ class MatchRequest(BaseModel):
 @router.post("/match", response_model=List[JobMatch])
 async def match_jobs_endpoint(request: MatchRequest):
     try:
-        db_path = os.path.join(os.path.dirname(__file__), "..", "data", "jobs_db.json")
-        with open(db_path, "r") as f:
-            jobs = json.load(f)
-        return match_jobs(request.resume_text, jobs)
+        # 1. Extract skills to search for real jobs
+        skills = extract_skills(request.resume_text)
+        
+        # 2. Fetch truly real-time jobs from APIs (RemoteOK, etc.)
+        real_jobs = get_real_time_jobs(skills)
+        
+        # 3. Convert objects to dicts for the matcher
+        job_dicts = []
+        for j in real_jobs:
+            job_dicts.append({
+                "title": j.title,
+                "company": j.company,
+                "location": j.location,
+                "salary": j.salary,
+                "job_url": j.job_url,
+                "description": j.description
+            })
+        
+        # 4. Match and Rank
+        return match_jobs(request.resume_text, job_dicts)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        print(f"[API ERROR] /jobs/match: {e}")
+        # Fallback to local verified DB on scraper failure
+        try:
+            db_path = os.path.join(os.path.dirname(__file__), "..", "data", "jobs_db.json")
+            if os.path.exists(db_path):
+                with open(db_path, "r") as f:
+                    jobs = json.load(f)
+                return match_jobs(request.resume_text, jobs)
+            return []
+        except:
+            raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/list", response_model=List[JobMatch])
 async def list_all_jobs():
     try:
         db_path = os.path.join(os.path.dirname(__file__), "..", "data", "jobs_db.json")
+        if not os.path.exists(db_path):
+             return []
         with open(db_path, "r") as f:
             jobs = json.load(f)
         return [

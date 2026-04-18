@@ -69,6 +69,7 @@ export default function JobMatches({ resumeId, onComplete }: Props) {
       case 'adzuna': return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
       case 'remoteok': return 'bg-green-500/20 text-green-400 border-green-500/30';
       case 'arbeitnow': return 'bg-purple-500/20 text-purple-400 border-purple-500/30';
+      case 'naukri': return 'bg-blue-600/20 text-blue-400 border-blue-600/30';
       case 'company_website': return 'bg-orange-500/20 text-orange-400 border-orange-500/30';
       default: return 'bg-white/10 text-white/70 border-white/20';
     }
@@ -79,6 +80,7 @@ export default function JobMatches({ resumeId, onComplete }: Props) {
       case 'adzuna': return 'Adzuna';
       case 'remoteok': return 'RemoteOK';
       case 'arbeitnow': return 'Arbeitnow';
+      case 'naukri': return 'Naukri.com';
       case 'company_website': return 'Company Website';
       default: return portal;
     }
@@ -93,9 +95,13 @@ export default function JobMatches({ resumeId, onComplete }: Props) {
       >
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold mb-3 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-            Real Jobs from the Internet
+            Real Jobs in India & Global
           </h2>
-          <p className="text-white/70">Live job listings from Adzuna, RemoteOK, and more</p>
+          <div className="flex items-center justify-center gap-2 mb-4">
+             <span className="px-3 py-1 bg-green-500/20 text-green-400 border border-green-500/30 rounded-full text-[10px] font-bold uppercase tracking-wider">Region: India</span>
+             <span className="px-3 py-1 bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-full text-[10px] font-bold uppercase tracking-wider">Source: Naukri.com</span>
+          </div>
+          <p className="text-white/70">Live job listings from Naukri, Adzuna, and more</p>
           {fetchStatus && (
             <p className="text-sm text-green-400 mt-2">{fetchStatus}</p>
           )}

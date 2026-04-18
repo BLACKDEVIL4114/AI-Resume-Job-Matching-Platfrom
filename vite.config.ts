@@ -121,13 +121,15 @@ const mockApiPlugin = () => ({
 
           if (path === '/api/fetch-real-jobs' && req.method === 'POST') {
              const mockJobs = [
-              { id: 1, job_title: 'Senior Frontend Engineer', company: 'TechFlow', location: 'Remote', salary: '$140k - $180k', match_score: 94, portal: 'adzuna', job_url: '#' },
-              { id: 2, job_title: 'React Developer', company: 'Innovate AI', location: 'San Francisco, CA', salary: '$120k - $160k', match_score: 88, portal: 'remoteok', job_url: '#' },
-              { id: 3, job_title: 'Full Stack Ninja', company: 'Web3 Wizards', location: 'Remote', salary: '$150k - $200k', match_score: 91, portal: 'adzuna', job_url: '#' },
-              { id: 4, job_title: 'Software Architect', company: 'Global Cloud', location: 'Berlin, DE', salary: '€90k - €120k', match_score: 85, portal: 'remoteok', job_url: '#' }
+              { id: 1, job_title: 'Senior Python Developer', company: 'TCS', location: 'Pune, India', salary: '₹12,00,000 - ₹18,00,000', match_score: 94, portal: 'naukri', job_url: 'https://www.naukri.com/python-jobs' },
+              { id: 2, job_title: 'React Architect', company: 'Infosys', location: 'Bangalore, India', salary: '₹20,00,000 - ₹35,00,000', match_score: 91, portal: 'naukri', job_url: 'https://www.naukri.com/react-jobs' },
+              { id: 3, job_title: 'Full Stack Engineer', company: 'Zomato', location: 'Gurgaon, India', salary: '₹25,00,000 - ₹40,00,000', match_score: 88, portal: 'naukri', job_url: 'https://www.naukri.com/zomato-jobs' },
+              { id: 4, job_title: 'Machine Learning Lead', company: 'Swiggy', location: 'Remote, India', salary: '₹30,00,000 - ₹50,00,000', match_score: 96, portal: 'naukri', job_url: 'https://www.naukri.com/swiggy-jobs' },
+              { id: 5, job_title: 'Backend Developer (Go)', company: 'Razorpay', location: 'Bangalore, India', salary: '₹18,00,000 - ₹28,00,000', match_score: 85, portal: 'naukri', job_url: 'https://www.naukri.com/razorpay-jobs' },
+              { id: 6, job_title: 'Software Engineer', company: 'Flipkart', location: 'Bangalore, India', salary: '₹15,00,000 - ₹25,00,000', match_score: 82, portal: 'naukri', job_url: 'https://www.naukri.com/flipkart-jobs' }
             ];
             mockDb.matches = mockJobs;
-            return res.end(JSON.stringify({ jobs: mockJobs, count: 4 }));
+            return res.end(JSON.stringify({ jobs: mockJobs, count: 6 }));
           }
 
           if ((path === '/api/auto-apply' || path === '/api/auto-apply-real') && req.method === 'POST') {

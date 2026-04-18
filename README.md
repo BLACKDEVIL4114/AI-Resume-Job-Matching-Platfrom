@@ -1,10 +1,13 @@
-# 🚀 JobApplyAI: AI-Powered Resume Matching & Auto-Apply Platform
+# <img src="./public/logo-icon.png" width="45" /> JobApplyAI: AI-Powered Resume Matching & Auto-Apply Platform
 
 **The industry’s first glassmorphic, AI-driven job application engine designed to automate your career journey.**
 
 JobApplyAI is a high-performance, autonomous platform that bridges the gap between candidates and recruiters using advanced **NLP-powered resume parsing**, real-time **ATS scoring**, and machine learning-driven job matching.
 
-![JobApplyAI Preview](https://github.com/BLACKDEVIL4114/JobApplyAI-Platform/raw/main/preview.png)
+![JobApplyAI Hero](./public/hero-banner.png)
+
+## 📸 Project Preview
+![Website Preview](./public/website-preview.png)
 
 ## ✨ Key Features
 
