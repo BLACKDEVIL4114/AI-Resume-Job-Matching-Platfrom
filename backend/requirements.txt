@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+spacy
+scikit-learn
+PyPDF2
+python-multipart
+numpy
+pandas
+requests
+beautifulsoup4
+selenium
+webdriver-manager
+pydantic

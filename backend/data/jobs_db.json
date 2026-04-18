@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "title": "Python Developer",
+    "company": "TCS",
+    "location": "Pune",
+    "salary": "₹8,00,000 - ₹12,00,000",
+    "job_url": "https://www.naukri.com/job-1",
+    "description": "Looking for a Python Developer proficient in Django and FastAPI. Experience with PostgreSQL and Docker is required. Knowledge of microservices architecture is a plus."
+  },
+  {
+    "id": 2,
+    "title": "Full Stack Developer",
+    "company": "Infosys",
+    "location": "Bangalore",
+    "salary": "₹10,00,000 - ₹15,00,000",
+    "job_url": "https://www.naukri.com/job-2",
+    "description": "Expert in React, Node.js, and TypeScript. Must be able to build responsive UI and scalable REST APIs. Familiarity with AWS and Git is mandatory."
+  },
+  {
+    "id": 3,
+    "title": "ML Engineer",
+    "company": "Wipro",
+    "location": "Hyderabad",
+    "salary": "₹12,00,000 - ₹18,00,000",
+    "job_url": "https://www.naukri.com/job-3",
+    "description": "Building machine learning models using TensorFlow and PyTorch. Experience with Scikit-learn and Pandas for data processing. Deep learning background is preferred."
+  },
+  {
+    "id": 4,
+    "title": "Data Analyst",
+    "company": "HCL",
+    "location": "Noida",
+    "salary": "₹6,00,000 - ₹9,00,000",
+    "job_url": "https://www.naukri.com/job-4",
+    "description": "Analyzing complex datasets using Python and SQL. Expert in data visualization with Matplotlib and Seaborn. Ability to generate business insights."
+  },
+  {
+    "id": 5,
+    "title": "Backend Developer",
+    "company": "Zomato",
+    "location": "Gurgaon",
+    "salary": "₹15,00,000 - ₹25,00,000",
+    "job_url": "https://www.naukri.com/job-5",
+    "description": "High-performance backend development with Go and Redis. Scalable microservices using Kafka and Kubernetes. Passion for system design."
+  },
+  {
+    "id": 6,
+    "title": "Frontend Developer",
+    "company": "Paytm",
+    "location": "Noida",
+    "salary": "₹12,00,000 - ₹20,00,000",
+    "job_url": "https://www.naukri.com/job-6",
+    "description": "React and Redux specialist. Skilled in HTML, CSS, and Bootstrap. Experience with accessible web design and performance optimization."
+  },
+  {
+    "id": 7,
+    "title": "React Developer",
+    "company": "Razorpay",
+    "location": "Bangalore",
+    "salary": "₹14,00,000 - ₹22,00,000",
+    "job_url": "https://www.naukri.com/job-7",
+    "description": "Building finance dashboards with React and Tailwind CSS. Solid understanding of JavaScript and API integration. Work with TypeScript is preferred."
+  },
+  {
+    "id": 8,
+    "title": "Django Developer",
+    "company": "Zerodha",
+    "location": "Bangalore",
+    "salary": "₹18,00,000 - ₹30,00,000",
+    "job_url": "https://www.naukri.com/job-8",
+    "description": "Building trading platforms with Django and Python. Expertise in SQL optimization and real-time data handling. Experience with Redis is a plus."
+  },
+  {
+    "id": 9,
+    "title": "AI Engineer",
+    "company": "BYJU'S",
+    "location": "Bangalore",
+    "salary": "₹12,00,000 - ₹20,00,000",
+    "job_url": "https://www.naukri.com/job-9",
+    "description": "Implementing NLP solutions with spaCy and Transformers. Experience with LangChain and OpenAI APIs. Building AI-driven educational tools."
+  },
+  {
+    "id": 10,
+    "title": "DevOps Engineer",
+    "company": "Freshworks",
+    "location": "Chennai",
+    "salary": "₹15,00,000 - ₹25,00,000",
+    "job_url": "https://www.naukri.com/job-10",
+    "description": "Managing cloud infrastructure on AWS and Azure. Expert in Docker, Kubernetes, and CI/CD with GitHub Actions. Focus on site reliability."
+  },
+  {
+    "id": 11,
+    "title": "Data Scientist",
+    "company": "Juspay",
+    "location": "Bangalore",
+    "salary": "₹20,00,000 - ₹35,00,000",
+    "job_url": "https://www.naukri.com/job-11",
+    "description": "Statistical modeling and advanced data science using Python. Experience with Scikit-learn and NumPy. Solving payment fraud with AI."
+  },
+  {
+    "id": 12,
+    "title": "NLP Engineer",
+    "company": "Meesho",
+    "location": "Bangalore",
+    "salary": "₹15,00,000 - ₹28,00,000",
+    "job_url": "https://www.naukri.com/job-12",
+    "description": "Developing chatbot systems with NLP. Expertise in spaCy, NLTK, and HuggingFace models. Understanding of vector databases like FAISS."
+  },
+  {
+    "id": 13,
+    "title": "Computer Vision Engineer",
+    "company": "Swiggy",
+    "location": "Bangalore",
+    "salary": "₹18,00,000 - ₹32,00,000",
+    "job_url": "https://www.naukri.com/job-13",
+    "description": "Building image recognition systems for logistics. Expert in OpenCV and TensorFlow. Experience with Deep Learning is mandatory."
+  },
+  {
+    "id": 14,
+    "title": "Cloud Engineer",
+    "company": "PhonePe",
+    "location": "Pune",
+    "salary": "₹14,00,000 - ₹24,00,000",
+    "job_url": "https://www.naukri.com/job-14",
+    "description": "GCP and Azure architecture. Managing scalable databases and serverless functions. High focus on security and VPC configurations."
+  },
+  {
+    "id": 15,
+    "title": "QA Engineer",
+    "company": "Ola",
+    "location": "Bangalore",
+    "salary": "₹8,00,000 - ₹14,00,000",
+    "job_url": "https://www.naukri.com/job-15",
+    "description": "Automated testing with Selenium and Python. Bug tracking with Jira. Knowledge of performance testing tools is an advantage."
+  },
+  {
+    "id": 16,
+    "title": "Business Analyst",
+    "company": "MakeMyTrip",
+    "location": "Gurgaon",
+    "salary": "₹10,00,000 - ₹18,00,000",
+    "job_url": "https://www.naukri.com/job-16",
+    "description": "Bridging business needs and technical solutions. Expert in SQL, Excel, and dashboarding with Tableau. Strong communication skills."
+  },
+  {
+    "id": 17,
+    "title": "Product Manager",
+    "company": "Nykaa",
+    "location": "Mumbai",
+    "salary": "₹18,00,000 - ₹28,00,000",
+    "job_url": "https://www.naukri.com/job-17",
+    "description": "Product roadmap design using Figma and Jira. Experience with Agile methodologies. Understanding of user experience and e-commerce."
+  },
+  {
+    "id": 18,
+    "title": "Android Developer",
+    "company": "Cred",
+    "location": "Bangalore",
+    "salary": "₹15,00,000 - ₹25,00,000",
+    "job_url": "https://www.naukri.com/job-18",
+    "description": "Kotlin expert building high-end Android apps. Skilled in MVVM architecture and Retrofit. Passion for clean UI patterns."
+  },
+  {
+    "id": 19,
+    "title": "iOS Developer",
+    "company": "Groww",
+    "location": "Bangalore",
+    "salary": "₹15,00,000 - ₹25,00,000",
+    "job_url": "https://www.naukri.com/job-19",
+    "description": "Swift and SwiftUI professional. Experience with iOS SDK and CI/CD for mobile. Building fast investment tools."
+  },
+  {
+    "id": 20,
+    "title": "Cybersecurity Analyst",
+    "company": "Flipkart",
+    "location": "Bangalore",
+    "salary": "₹12,00,000 - ₹22,00,000",
+    "job_url": "https://www.naukri.com/job-20",
+    "description": "Protecting e-commerce infrastructure. Expert in network security, ethical hacking, and vulnerability assessments. Knowledge of firewalls."
+  }
+]
