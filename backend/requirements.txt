@@ -11,5 +11,3 @@ beautifulsoup4
 selenium
 webdriver-manager
 pydantic
-gunicorn
-

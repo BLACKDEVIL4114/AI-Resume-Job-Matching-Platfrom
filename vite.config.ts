@@ -165,15 +165,6 @@ const mockApiPlugin = () => ({
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), mockApiPlugin()],
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
-  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
