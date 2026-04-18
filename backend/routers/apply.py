@@ -43,3 +43,11 @@ async def get_application_history():
         return df.to_dict('records')
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/scrape")
+async def scrape_jobs(title: str, location: str = "Ahmedabad"):
+    try:
+        from services.scraper import scrape_naukri
+        return scrape_naukri(title, location)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

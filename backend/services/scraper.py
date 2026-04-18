@@ -1,48 +1,63 @@
+# backend/services/scraper.py
 import requests
 from bs4 import BeautifulSoup
 from models.schemas import JobMatch
 
 def scrape_naukri(job_title: str, location: str = "Ahmedabad") -> list:
+    print(f"[SCRAPER] Searching Naukri for: {job_title} in {location}")
+    results = []
     try:
-        # Format strings for URL
-        title_url = job_title.lower().replace(" ", "-")
-        location_url = location.lower()
-        url = f"https://www.naukri.com/{title_url}-jobs-in-{location_url}"
+        search_title = job_title.replace(" ", "-").lower()
+        search_location = location.replace(" ", "-").lower()
+        url = f"https://www.naukri.com/{search_title}-jobs-in-{search_location}"
         
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36",
+            "Accept-Language": "en-US,en;q=0.9",
         }
         
         response = requests.get(url, headers=headers, timeout=10)
-        if response.status_code != 200:
-            print(f"Naukri Scraper: Received status {response.status_code}")
-            return []
-
-        soup = BeautifulSoup(response.content, "html.parser")
-        job_listings = soup.find_all("div", class_="srp-jobtuple-wrapper")
         
-        results = []
-        for job in job_listings[:10]:
+        if response.status_code != 200:
+            print(f"[SCRAPER] Failed with status: {response.status_code}")
+            return []
+        
+        soup = BeautifulSoup(response.text, "html.parser")
+        
+        job_cards = soup.find_all("article", class_="jobTuple", limit=10)
+        
+        if not job_cards:
+            job_cards = soup.find_all("div", class_="job-container", limit=10)
+        
+        for card in job_cards:
             try:
-                title = job.find("a", class_="title").text.strip()
-                company = job.find("a", class_="comp-name").text.strip()
-                loc = job.find("span", class_="locWraper").text.strip()
-                salary = job.find("span", class_="sal-wrap").text.strip()
-                link = job.find("a", class_="title")["href"]
+                title_tag = card.find("a", class_="title")
+                company_tag = card.find("a", class_="subTitle")
+                location_tag = card.find("li", class_="location")
+                salary_tag = card.find("li", class_="salary")
+                
+                title = title_tag.text.strip() if title_tag else job_title
+                company = company_tag.text.strip() if company_tag else "Company"
+                loc = location_tag.text.strip() if location_tag else location
+                salary = salary_tag.text.strip() if salary_tag else "Not disclosed"
+                job_url = title_tag["href"] if title_tag and title_tag.get("href") else url
                 
                 results.append(JobMatch(
                     title=title,
                     company=company,
                     location=loc,
                     salary=salary,
-                    match_score=0, # Score will be calculated later
-                    job_url=link,
-                    description="Live job from Naukri.com"
+                    match_score=0,
+                    job_url=job_url,
+                    description=f"{title} role at {company} in {loc}"
                 ))
-            except:
+            except Exception as e:
+                print(f"[SCRAPER] Error parsing card: {e}")
                 continue
-                
+        
+        print(f"[SCRAPER] Found {len(results)} jobs")
         return results
+        
     except Exception as e:
-        print(f"Scraper Error: {e}")
+        print(f"[SCRAPER] Exception: {e}")
         return []

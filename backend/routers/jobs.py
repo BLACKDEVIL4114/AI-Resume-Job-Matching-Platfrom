@@ -1,11 +1,11 @@
-import json
-import os
+# backend/routers/jobs.py
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import List
 from services.matcher import match_jobs
-from services.scraper import scrape_naukri
 from models.schemas import JobMatch
+import json
+import os
+from typing import List
 
 router = APIRouter(prefix="/jobs", tags=["Jobs"])
 
@@ -13,22 +13,31 @@ class MatchRequest(BaseModel):
     resume_text: str
 
 @router.post("/match", response_model=List[JobMatch])
-async def get_job_matches(request: MatchRequest):
+async def match_jobs_endpoint(request: MatchRequest):
     try:
-        db_path = os.path.join("data", "jobs_db.json")
-        if not os.path.exists(db_path):
-            raise HTTPException(status_code=404, detail="Jobs database not found")
-            
+        db_path = os.path.join(os.path.dirname(__file__), "..", "data", "jobs_db.json")
         with open(db_path, "r") as f:
             jobs = json.load(f)
-            
         return match_jobs(request.resume_text, jobs)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/scrape", response_model=List[JobMatch])
-async def get_scraped_jobs(title: str, location: str = "Ahmedabad"):
+@router.get("/list", response_model=List[JobMatch])
+async def list_all_jobs():
     try:
-        return scrape_naukri(title, location)
+        db_path = os.path.join(os.path.dirname(__file__), "..", "data", "jobs_db.json")
+        with open(db_path, "r") as f:
+            jobs = json.load(f)
+        return [
+            JobMatch(
+                title=j["title"],
+                company=j["company"],
+                location=j["location"],
+                salary=j["salary"],
+                match_score=0,
+                job_url=j["job_url"],
+                description=j["description"]
+            ) for j in jobs
+        ]
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

@@ -29,4 +29,3 @@ async def get_ats_score(request: ATSRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 # Note: Using 'router' for consistency with main.py
-router = router 

@@ -3,9 +3,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from routers import resume, jobs, apply
 
 app = FastAPI(
-    title="JobApplyAI Advanced NLP Backend",
-    description="Industry-grade AI recruitment engine with automated application capabilities.",
-    version="2.0.0"
+    title="JobApplyAI - AI Resume Matching Platform",
+    description="Real NLP-powered resume matcher with ATS scoring and auto-apply",
+    version="2.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
 # Enable CORS for React Frontend

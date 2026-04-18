@@ -31,7 +31,7 @@ def apply_naukri(job_url, resume_path, name, email, phone, naukri_email, naukri_
         
         wait.until(EC.presence_of_element_located((By.ID, "usernameField"))).send_keys(naukri_email)
         driver.find_element(By.ID, "passwordField").send_keys(naukri_password)
-        driver.find_element(By.CSS__SELECTOR, "button[type='submit']").click()
+        driver.find_element(By.CSS_SELECTOR, "button[type='submit']").click()
         
         time.sleep(3) # Wait for dashboard load
         print("[2/5] Login successful.")
