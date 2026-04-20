@@ -10,6 +10,7 @@ import AutoApply from './components/AutoApply';
 import Auth from './components/Auth';
 import RecruiterInbox from './components/RecruiterInbox';
 import InterviewTracker from './components/InterviewTracker';
+import ApplicationDashboard from './components/ApplicationDashboard';
 
 type Step = 'upload' | 'ats' | 'matches' | 'apply';
 
@@ -45,7 +46,7 @@ function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showDashboard, setShowDashboard] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
-  const [dashboardTab, setDashboardTab] = useState<'inbox' | 'tracker'>('inbox');
+  const [dashboardTab, setDashboardTab] = useState<'inbox' | 'tracker' | 'history'>('inbox');
 
   // Auto-detect login state (simulated)
   useEffect(() => {
@@ -318,6 +319,16 @@ function App() {
                       >
                         Interview Tracker
                       </button>
+                      <button 
+                        onClick={() => setDashboardTab('history')}
+                        className={`px-8 py-3 rounded-2xl text-sm font-black uppercase tracking-widest transition-all ${
+                          dashboardTab === 'history' 
+                            ? 'bg-blue-500 text-white shadow-xl shadow-blue-500/20' 
+                            : 'bg-white/5 border border-white/10 text-white/40 hover:text-white'
+                        }`}
+                      >
+                        App Tracking
+                      </button>
                     </div>
                     <button 
                       onClick={() => setShowDashboard(false)}
@@ -336,8 +347,10 @@ function App() {
                   >
                     {dashboardTab === 'inbox' ? (
                       <RecruiterInbox onUnreadCount={setUnreadCount} />
-                    ) : (
+                    ) : dashboardTab === 'tracker' ? (
                       <InterviewTracker />
+                    ) : (
+                      <ApplicationDashboard resumeId={selectedResume?.id} />
                     )}
                   </motion.div>
                 </div>
