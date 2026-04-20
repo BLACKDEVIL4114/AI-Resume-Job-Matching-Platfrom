@@ -1,6 +1,6 @@
-import { useState, useEffect, Suspenese } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, FileText, Target, Zap, CheckCircle, XCircle, Clock, TrendingUp, Briefcase, Globe, Loader2, LogOut, User as UserIcon } from 'lucide-react';
+import { Upload, FileText, Target, Zap, CheckCircle, XCircle, Clock, TrendingUp, Briefcase, Globe, Loader2, LogOut, User as UserIcon, Lock } from 'lucide-react';
 
 // Components
 import ResumeUpload from './components/ResumeUpload';
