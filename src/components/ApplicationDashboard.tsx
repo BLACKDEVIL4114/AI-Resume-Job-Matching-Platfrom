@@ -14,7 +14,7 @@ interface Application {
 }
 
 interface Props {
-  resumeId: number;
+  resumeId?: number;
 }
 
 export default function ApplicationDashboard({ resumeId }: Props) {
@@ -22,26 +22,18 @@ export default function ApplicationDashboard({ resumeId }: Props) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('Dashboard mounted with resumeId:', resumeId);
     fetchApplications();
   }, [resumeId]);
 
   const fetchApplications = async () => {
-    if (!resumeId) {
-      console.warn('No resumeId provided to dashboard');
-      setLoading(false);
-      return;
-    }
     setLoading(true);
     try {
-      console.log('Fetching applications...');
-      const res = await fetch(`/api/applications?resume_id=${resumeId}`);
+      // If we have a resumeId, filter by it, otherwise get all
+      const url = resumeId ? `/api/applications?resume_id=${resumeId}` : '/api/applications';
+      const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();
-        console.log('Fetched applications:', data);
         setApplications(Array.isArray(data) ? data : []);
-      } else {
-        console.error('API responded with error:', res.status);
       }
     } catch (err) {
       console.error('Fetch error:', err);
@@ -49,8 +41,6 @@ export default function ApplicationDashboard({ resumeId }: Props) {
       setLoading(false);
     }
   };
-
-  if (!resumeId) return null;
 
 
 
