@@ -345,7 +345,6 @@ function App() {
             )}
           </AnimatePresence>
         </div>
-        </div>
       </div>
 
       {/* Global Auth Modal */}
