@@ -14,6 +14,8 @@ interface Props {
   onResumeUploaded: (resume: Resume) => void;
 }
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+
 export default function ResumeUpload({ onResumeUploaded }: Props) {
   const [uploading, setUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
@@ -46,7 +48,7 @@ export default function ResumeUpload({ onResumeUploaded }: Props) {
       }
 
       console.log('Sending to API...', isBinary ? '(Binary/Base64)' : '(Text)');
-      const res = await fetch('/api/resumes', {
+      const res = await fetch(`${API_BASE}/api/resumes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

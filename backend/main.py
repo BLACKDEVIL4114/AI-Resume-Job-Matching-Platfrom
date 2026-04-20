@@ -11,10 +11,15 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-# Enable CORS for React Frontend
+# Enable CORS for All services
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174", "https://your-app.vercel.app"],
+    allow_origins=[
+        "http://localhost:5173", 
+        "http://localhost:5174", 
+        "https://ai-resume-job-matching-platform.vercel.app", # Replace with your actual Vercel URL
+        "*" # Temporary fallback for initial deployment testing
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

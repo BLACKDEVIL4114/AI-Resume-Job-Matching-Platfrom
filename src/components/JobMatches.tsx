@@ -21,6 +21,8 @@ interface Props {
   onComplete: () => void;
 }
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+
 export default function JobMatches({ resumeId, onComplete }: Props) {
   const [loading, setLoading] = useState(true);
   const [matches, setMatches] = useState<JobMatch[]>([]);
@@ -36,7 +38,7 @@ export default function JobMatches({ resumeId, onComplete }: Props) {
       // Fetch REAL jobs from the internet
       setFetchStatus('Searching job portals...');
       console.log('Fetching real jobs from multiple sources...');
-      const fetchRes = await fetch('/api/fetch-real-jobs', {
+      const fetchRes = await fetch(`${API_BASE}/api/fetch-real-jobs`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ resume_id: resumeId })
@@ -52,7 +54,7 @@ export default function JobMatches({ resumeId, onComplete }: Props) {
       setFetchStatus(`Found ${fetchData.count || 0} real jobs!`);
 
       // Then fetch them from database
-      const res = await fetch(`/api/job-matches?resume_id=${resumeId}`);
+      const res = await fetch(`${API_BASE}/api/job-matches?resume_id=${resumeId}`);
       if (res.ok) {
         const data = await res.json();
         setMatches(data);

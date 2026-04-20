@@ -17,6 +17,8 @@ interface Props {
   resumeId?: number;
 }
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+
 export default function ApplicationDashboard({ resumeId }: Props) {
   const [applications, setApplications] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +31,7 @@ export default function ApplicationDashboard({ resumeId }: Props) {
     setLoading(true);
     try {
       // If we have a resumeId, filter by it, otherwise get all
-      const url = resumeId ? `/api/applications?resume_id=${resumeId}` : '/api/applications';
+      const url = resumeId ? `${API_BASE}/api/applications?resume_id=${resumeId}` : `${API_BASE}/api/applications`;
       const res = await fetch(url);
       if (res.ok) {
         const data = await res.json();

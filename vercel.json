@@ -1,7 +1,22 @@
 {
-  "env": {
-    "VITE_SUPABASE_URL": "your-project-url",
-    "VITE_SUPABASE_ANON_KEY": "your-anon-key",
-    "VITE_GOOGLE_CLIENT_ID": "your-google-client-id"
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }

@@ -20,6 +20,8 @@ interface Props {
   onComplete: (score: number) => void;
 }
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+
 export default function ATSAnalysis({ resume, onComplete }: Props) {
   const [analyzing, setAnalyzing] = useState(true);
   const [result, setResult] = useState<ATSResult | null>(null);
@@ -31,7 +33,7 @@ export default function ATSAnalysis({ resume, onComplete }: Props) {
   const analyzeResume = async () => {
     setAnalyzing(true);
     try {
-      const res = await fetch('/api/ats-analyze', {
+      const res = await fetch(`${API_BASE}/api/ats-analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ resume_id: resume.id })

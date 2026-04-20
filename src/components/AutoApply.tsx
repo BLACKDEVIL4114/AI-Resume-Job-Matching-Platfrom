@@ -22,6 +22,8 @@ interface Props {
   onComplete: () => void;
 }
 
+const API_BASE = import.meta.env.VITE_BACKEND_URL || '';
+
 export default function AutoApply({ resumeId, onComplete }: Props) {
   const [jobs, setJobs] = useState<JobMatch[]>([]);
   const [selectedJobs, setSelectedJobs] = useState<number[]>([]);
@@ -35,7 +37,7 @@ export default function AutoApply({ resumeId, onComplete }: Props) {
 
   const fetchJobs = async () => {
     try {
-      const res = await fetch(`/api/job-matches?resume_id=${resumeId}`);
+      const res = await fetch(`${API_BASE}/api/job-matches?resume_id=${resumeId}`);
       if (res.ok) {
         const data = await res.json();
         setJobs(data.filter((j: JobMatch) => j.match_score >= 60)); // Only show jobs with 60%+ match
@@ -61,7 +63,7 @@ export default function AutoApply({ resumeId, onComplete }: Props) {
     try {
       console.log(`Starting auto-apply for ${selectedJobs.length} real jobs...`);
       // We use a shorter timeout or parallel calls in the backend to prevent frontend loops
-      const res = await fetch('/api/auto-apply-real', {
+      const res = await fetch(`${API_BASE}/api/auto-apply-real`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -69,7 +71,7 @@ export default function AutoApply({ resumeId, onComplete }: Props) {
           resume_id: resumeId
         })
       });
-
+      
       if (res.ok) {
         const data = await res.json();
         setResults(data.results || []);
