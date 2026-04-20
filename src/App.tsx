@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Upload, FileText, Target, Zap, CheckCircle, XCircle, Clock, TrendingUp, Briefcase, Globe, Loader2, LogOut, User as UserIcon, Lock } from 'lucide-react';
+import { Upload, FileText, Target, Zap, CheckCircle, XCircle, Clock, TrendingUp, Briefcase, Globe, Loader2, LogOut, User as UserIcon, Lock, Bell, X } from 'lucide-react';
 
 // Components
 import ResumeUpload from './components/ResumeUpload';
 import ATSAnalysis from './components/ATSAnalysis';
 import JobMatches from './components/JobMatches';
-import ApplicationDashboard from './components/ApplicationDashboard';
 import AutoApply from './components/AutoApply';
 import Auth from './components/Auth';
+import RecruiterInbox from './components/RecruiterInbox';
+import InterviewTracker from './components/InterviewTracker';
 
-type Step = 'upload' | 'ats' | 'matches' | 'apply' | 'dashboard';
+type Step = 'upload' | 'ats' | 'matches' | 'apply';
 
 interface Resume {
   id: number;
@@ -42,6 +43,9 @@ function App() {
   const [atsScore, setAtsScore] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showDashboard, setShowDashboard] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [dashboardTab, setDashboardTab] = useState<'inbox' | 'tracker'>('inbox');
 
   // Auto-detect login state (simulated)
   useEffect(() => {
@@ -78,7 +82,7 @@ function App() {
   };
 
   const handleApplyComplete = () => {
-    setCurrentStep('dashboard');
+    setShowDashboard(true);
   };
 
   const handleLoginSuccess = (userData: User) => {
@@ -125,17 +129,20 @@ function App() {
 
             <nav className="hidden lg:flex items-center gap-8">
               <button 
-                onClick={() => setCurrentStep('upload')}
-                className={`text-sm font-bold tracking-tight transition-all pb-1 border-b-2 ${currentStep !== 'dashboard' ? 'text-blue-400 border-blue-500' : 'text-white/40 border-transparent hover:text-white/70'}`}
+                onClick={() => {
+                  setShowDashboard(false);
+                  setCurrentStep('upload');
+                }}
+                className={`text-sm font-bold tracking-tight transition-all pb-1 border-b-2 ${!showDashboard ? 'text-blue-400 border-blue-500' : 'text-white/40 border-transparent hover:text-white/70'}`}
               >
                 Job Search
               </button>
               <button 
                 onClick={() => {
                   if (!user) setShowAuthModal(true);
-                  else setCurrentStep('dashboard');
+                  else setShowDashboard(true);
                 }}
-                className={`text-sm font-bold tracking-tight transition-all pb-1 border-b-2 ${currentStep === 'dashboard' ? 'text-blue-400 border-blue-500' : 'text-white/40 border-transparent hover:text-white/70'}`}
+                className={`text-sm font-bold tracking-tight transition-all pb-1 border-b-2 ${showDashboard ? 'text-blue-400 border-blue-500' : 'text-white/40 border-transparent hover:text-white/70'}`}
               >
                 Dashboard
               </button>
@@ -143,13 +150,29 @@ function App() {
           </div>
 
           <div className="flex items-center gap-4">
+            {user && (
+              <button 
+                onClick={() => {
+                  setShowDashboard(true);
+                  setDashboardTab('inbox');
+                }}
+                className="relative p-2.5 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 transition-all text-white/60 hover:text-blue-400 group"
+              >
+                <Bell className="w-5 h-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-black rounded-full flex items-center justify-center border-2 border-[#020617] group-hover:scale-110 transition-transform">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+            )}
             {user ? (
               <div className="flex items-center gap-3 pl-3 pr-2 py-2 bg-white/5 border border-white/10 rounded-2xl">
                 <div className="text-right hidden sm:block">
                   <p className="text-xs font-bold text-white/80">{user.user_metadata.full_name}</p>
                   <p className="text-[9px] font-medium text-white/30 uppercase tracking-wider">Premium Member</p>
                 </div>
-                <div className="w-8 h-8 bg-blue-500 rounded-xl flex items-center justify-center text-xs font-black shadow-lg shadow-blue-500/20 cursor-pointer" onClick={() => setCurrentStep('dashboard')}>
+                <div className="w-8 h-8 bg-blue-500 rounded-xl flex items-center justify-center text-xs font-black shadow-lg shadow-blue-500/20 cursor-pointer" onClick={() => setShowDashboard(true)}>
                   {user.user_metadata.full_name?.[0].toUpperCase()}
                 </div>
                 <button 
@@ -172,9 +195,8 @@ function App() {
         </header>
 
         <div className="max-w-7xl mx-auto">
-          {/* Progress Steps */}
           {/* Progress Steps - Only show during the search flow */}
-          {currentStep !== 'dashboard' && (
+          {!showDashboard && (
             <div className="flex flex-wrap gap-4 mb-12 relative overflow-x-auto pb-4 scrollbar-hide">
               {steps.map((step, index) => {
                 const Icon = step.icon;
@@ -261,21 +283,68 @@ function App() {
                   </div>
                 )
               )}
-              
-              {currentStep === 'dashboard' && (
-                user ? (
-                  <ApplicationDashboard resumeId={selectedResume?.id || 0} />
-                ) : (
-                  <div className="text-center py-20 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md">
-                     <TrendingUp className="w-16 h-16 text-purple-500 mb-6 mx-auto opacity-50" />
-                     <h3 className="text-2xl font-black mb-3">Dashboard Locked</h3>
-                     <p className="text-white/40 mb-8 max-w-sm mx-auto">Sign in to track your application statuses in real-time across all your career paths.</p>
-                     <button onClick={() => setShowAuthModal(true)} className="px-12 py-4 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl font-black uppercase tracking-widest text-xs">Sign In Now</button>
-                  </div>
-                )
-              )}
             </motion.div>
           </AnimatePresence>
+
+          {/* Full-Page Dashboard Overlay */}
+          <AnimatePresence>
+            {showDashboard && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[100] bg-[#020617]/95 backdrop-blur-2xl p-4 md:p-8 overflow-y-auto"
+              >
+                <div className="max-w-7xl mx-auto">
+                  <div className="flex justify-between items-center mb-12">
+                    <div className="flex gap-4">
+                      <button 
+                        onClick={() => setDashboardTab('inbox')}
+                        className={`px-8 py-3 rounded-2xl text-sm font-black uppercase tracking-widest transition-all ${
+                          dashboardTab === 'inbox' 
+                            ? 'bg-blue-500 text-white shadow-xl shadow-blue-500/20' 
+                            : 'bg-white/5 border border-white/10 text-white/40 hover:text-white'
+                        }`}
+                      >
+                        Recruiter Inbox {unreadCount > 0 && `(${unreadCount})`}
+                      </button>
+                      <button 
+                        onClick={() => setDashboardTab('tracker')}
+                        className={`px-8 py-3 rounded-2xl text-sm font-black uppercase tracking-widest transition-all ${
+                          dashboardTab === 'tracker' 
+                            ? 'bg-blue-500 text-white shadow-xl shadow-blue-500/20' 
+                            : 'bg-white/5 border border-white/10 text-white/40 hover:text-white'
+                        }`}
+                      >
+                        Interview Tracker
+                      </button>
+                    </div>
+                    <button 
+                      onClick={() => setShowDashboard(false)}
+                      className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all hover:scale-110 active:scale-95"
+                    >
+                      <X className="w-6 h-6" />
+                    </button>
+                  </div>
+
+                  <motion.div
+                    key={dashboardTab}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {dashboardTab === 'inbox' ? (
+                      <RecruiterInbox onUnreadCount={setUnreadCount} />
+                    ) : (
+                      <InterviewTracker />
+                    )}
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
         </div>
       </div>
 
