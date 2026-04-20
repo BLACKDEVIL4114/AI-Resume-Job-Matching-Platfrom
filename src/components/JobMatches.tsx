@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, MapPin, DollarSign, TrendingUp, Loader2, ArrowRight, Globe, ExternalLink } from 'lucide-react';
+import { Briefcase, MapPin, DollarSign, IndianRupee, TrendingUp, Loader2, ArrowRight, Globe, ExternalLink } from 'lucide-react';
 
 interface JobMatch {
   id: number;
@@ -11,6 +11,7 @@ interface JobMatch {
   match_score: number;
   portal: string;
   job_url: string;
+  job_type: string;
   description?: string;
   source?: string;
 }
@@ -142,6 +143,13 @@ export default function JobMatches({ resumeId, onComplete }: Props) {
                         <span className={`px-3 py-1 rounded-full text-xs font-semibold border ${getPortalColor(job.portal)}`}>
                           {job.source || getPortalLabel(job.portal)}
                         </span>
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter border ${
+                          job.job_type === 'Remote' 
+                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
+                            : 'bg-sky-500/10 text-sky-400 border-sky-500/30'
+                        }`}>
+                          {job.job_type || 'On-site'}
+                        </span>
                       </div>
                       
                       <div className="flex items-center gap-6 text-sm text-white/70 mb-3">
@@ -154,7 +162,11 @@ export default function JobMatches({ resumeId, onComplete }: Props) {
                           {job.location}
                         </div>
                         <div className="flex items-center gap-2">
-                          <DollarSign className="w-4 h-4" />
+                          {(job.salary.includes('₹') || job.location.toLowerCase().includes('india')) ? (
+                            <IndianRupee className="w-4 h-4" />
+                          ) : (
+                            <DollarSign className="w-4 h-4" />
+                          )}
                           {job.salary}
                         </div>
                       </div>

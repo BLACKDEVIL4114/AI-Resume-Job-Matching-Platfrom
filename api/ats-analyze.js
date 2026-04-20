@@ -1,44 +1,80 @@
 import supabase, { ensureAwake } from './_supabase.js';
 
-// Simulated ATS analysis - in production, integrate with AI/ML service
+// Enhanced ATS Analysis Logic
+const SKILL_CLUSTERS = {
+  frontend: ['react', 'vue', 'angular', 'next.js', 'typescript', 'javascript', 'html', 'css', 'tailwind', 'redux', 'sass', 'webpack', 'vite', 'responsive'],
+  backend: ['node', 'python', 'java', 'go', 'rust', 'ruby', 'php', 'django', 'flask', 'fastapi', 'spring boot', 'microservices', 'rest api', 'graphql'],
+  database: ['sql', 'postgresql', 'mongodb', 'mysql', 'redis', 'nosql', 'firebase', 'sqlite', 'oracle', 'dynamodb'],
+  devops: ['docker', 'kubernetes', 'aws', 'azure', 'gcp', 'jenkins', 'github actions', 'terraform', 'ansible', 'linux', 'bash', 'cicd'],
+  ai: ['ai', 'machine learning', 'pytorch', 'tensorflow', 'llm', 'openai', 'nlp', 'data science', 'scikit-learn', 'deep learning', 'pandas', 'numpy']
+};
+
+const ACTION_VERBS = ['developed', 'led', 'managed', 'implemented', 'designed', 'optimized', 'scaled', 'architected', 'resolved', 'collaborated', 'increased', 'decreased', 'shipped'];
+
 function analyzeResume(content) {
-  const keywords = [
-    // Core Engineering
-    'experience', 'skills', 'education', 'projects', 'achievements',
-    'leadership', 'team', 'management', 'technical', 'communication',
-    'problem-solving', 'agile', 'scrum', 'git', 'ci/cd', 'devops',
-    // Frontend
-    'react', 'typescript', 'next.js', 'javascript', 'tailwind', 'redux', 'vue',
-    'angular', 'css', 'html', 'responsive', 'performance',
-    // Backend & Languages
-    'node', 'python', 'java', 'go', 'rust', 'c++', 'ruby', 'php', 'sql',
-    'postgresql', 'mongodb', 'graphql', 'rest api', 'microservices',
-    // AI & Cloud
-    'ai', 'machine learning', 'pytorch', 'tensorflow', 'llm', 'openai',
-    'cloud', 'aws', 'azure', 'gcp', 'docker', 'kubernetes', 'terraform'
-  ];
-
   const lowerContent = content.toLowerCase();
-  const foundKeywords = keywords.filter(kw => lowerContent.includes(kw));
-  const keywordScore = (foundKeywords.length / keywords.length) * 40;
+  
+  // 1. Skill Density (40 points)
+  let foundKeywords = [];
+  let clusterScores = {};
+  
+  Object.entries(SKILL_CLUSTERS).forEach(([cluster, skills]) => {
+    const matched = skills.filter(skill => lowerContent.includes(skill));
+    clusterScores[cluster] = matched.length;
+    foundKeywords.push(...matched);
+  });
+  
+  const uniqueKeywords = [...new Set(foundKeywords)];
+  const keywordIntensity = Math.min(40, (uniqueKeywords.length / 15) * 40);
 
-  const hasContact = /email|phone|linkedin|github/.test(lowerContent) ? 15 : 0;
-  const hasEducation = /education|degree|university|college/.test(lowerContent) ? 15 : 0;
-  const hasExperience = /experience|worked|developed|managed/.test(lowerContent) ? 20 : 0;
-  const hasSkills = /skills|technologies|tools/.test(lowerContent) ? 10 : 0;
+  // 2. Section Analysis (25 points)
+  const sections = {
+    contact: { regex: /([a-zA-Z0-9._%+-]+@|phone|mobile|linkedin|github|portfolio)/, score: 5 },
+    education: { regex: /(education|degree|university|college|bachelor|master|b\.tech|m\.tech|graduate)/, score: 5 },
+    experience: { regex: /(experience|worked|employment|history|internship|professional experience)/, score: 10 },
+    skills: { regex: /(skills|technologies|tools|competencies|expertise)/, score: 5 }
+  };
 
-  const score = Math.min(100, Math.round(keywordScore + hasContact + hasEducation + hasExperience + hasSkills));
+  let sectionScore = 0;
+  const missingSections = [];
+  for (const [name, data] of Object.entries(sections)) {
+    if (data.regex.test(lowerContent)) {
+      sectionScore += data.score;
+    } else {
+      missingSections.push(name);
+    }
+  }
 
+  // 3. Impact & Quantified Results (20 points)
+  const metricMatch = lowerContent.match(/\d+%/g) || [];
+  const verbMatch = ACTION_VERBS.filter(v => lowerContent.includes(v));
+  const impactScore = Math.min(20, (metricMatch.length * 5) + (verbMatch.length * 2));
+
+  // 4. Formatting & Depth (15 points)
+  const wordCount = content.split(/\s+/).length;
+  let depthScore = 0;
+  if (wordCount > 150 && wordCount < 800) depthScore = 15;
+  else if (wordCount >= 800) depthScore = 10;
+  else depthScore = 5;
+
+  // Final Score
+  const score = Math.round(keywordIntensity + sectionScore + impactScore + depthScore);
+
+  // Dynamic Suggestions
   const suggestions = [];
-  if (score < 40) suggestions.push('Add more relevant keywords and technical skills');
-  if (!hasContact) suggestions.push('Include contact information (email, phone, LinkedIn)');
-  if (!hasEducation) suggestions.push('Add education section with degrees and institutions');
-  if (!hasExperience) suggestions.push('Highlight work experience with quantifiable achievements');
-  if (keywordScore < 20) suggestions.push('Include industry-specific keywords and technologies');
-  if (score < 60) suggestions.push('Add projects or certifications to strengthen your profile');
-  if (score >= 80) suggestions.push('Excellent! Your resume is well-optimized for ATS systems');
+  if (score < 40) suggestions.push('Significant improvements needed. Add detailed skills and experience.');
+  if (missingSections.length > 0) suggestions.push(`Add or clearly label these sections: ${missingSections.join(', ')}`);
+  if (metricMatch.length === 0) suggestions.push('Add quantifiable metrics (e.g., "Increased performance by 20%") to highlight impact.');
+  if (uniqueKeywords.length < 8) suggestions.push('Include more industry-specific technical keywords.');
+  if (verbMatch.length < 5) suggestions.push('Use more action verbs to describe your responsibilities.');
+  if (wordCount < 150) suggestions.push('Your resume seems too brief. Expand on your projects and achievements.');
+  if (score >= 85) suggestions.push('Excellent profile! Your resume is highly optimized for modern ATS systems.');
 
-  return { score, suggestions, foundKeywords: foundKeywords.slice(0, 10) };
+  return { 
+    score: Math.min(100, score), 
+    suggestions: suggestions.slice(0, 5), 
+    foundKeywords: uniqueKeywords.slice(0, 12) 
+  };
 }
 
 export default async function handler(req, res) {

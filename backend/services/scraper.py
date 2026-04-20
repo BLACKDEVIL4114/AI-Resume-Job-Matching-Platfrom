@@ -86,23 +86,30 @@ def get_real_time_jobs(skills: List[str], location: str = "India") -> List[JobMa
     """Unified engine to fetch real currently existing jobs"""
     query = " ".join(skills[:3]) if skills else "Software Engineer"
     
-    # 1. Try Adzuna
-    jobs = fetch_adzuna_jobs(query, location)
+    jobs = []
     
-    # 2. Add RemoteOK if we need more or global
-    if len(jobs) < 10:
-        remote_jobs = fetch_remoteok_jobs(query)
-        jobs.extend(remote_jobs)
-        
-    # 3. Fallback to Local DB if everything fails
-    if not jobs:
-        print("[FALLBACK] Using local jobs database")
+    # 1. Fetch from Adzuna (India-specific on-site)
+    # We use India as the default location for on-site jobs
+    print(f"[REALS-TIME] Searching for on-site jobs in {location}...")
+    india_jobs = fetch_adzuna_jobs(query, location)
+    jobs.extend(india_jobs)
+    
+    # 2. Fetch from RemoteOK (Global Remote)
+    # This ensures we always have global remote options
+    print(f"[REAL-TIME] Searching for global remote jobs...")
+    remote_jobs = fetch_remoteok_jobs(query)
+    jobs.extend(remote_jobs)
+    
+    # 3. Fallback to Local DB only if we found very few or no jobs
+    if len(jobs) < 5:
+        print("[FALLBACK] Found few real-time jobs, augmenting with local database")
         try:
             db_path = os.path.join(os.path.dirname(__file__), "..", "data", "jobs_db.json")
             if os.path.exists(db_path):
                 with open(db_path, "r") as f:
                     local_data = json.load(f)
-                    for j in local_data[:15]:
+                    # Add jobs that aren't already represented
+                    for j in local_data[:20]:
                         jobs.append(JobMatch(
                             title=j["title"],
                             company=j["company"],

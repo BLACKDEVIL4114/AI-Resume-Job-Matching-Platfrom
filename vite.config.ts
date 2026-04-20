@@ -126,10 +126,14 @@ const mockApiPlugin = () => ({
               { id: 3, job_title: 'Full Stack Engineer', company: 'Zomato', location: 'Gurgaon, India', salary: '₹25,00,000 - ₹40,00,000', match_score: 88, portal: 'naukri', job_url: 'https://www.naukri.com/zomato-jobs' },
               { id: 4, job_title: 'Machine Learning Lead', company: 'Swiggy', location: 'Remote, India', salary: '₹30,00,000 - ₹50,00,000', match_score: 96, portal: 'naukri', job_url: 'https://www.naukri.com/swiggy-jobs' },
               { id: 5, job_title: 'Backend Developer (Go)', company: 'Razorpay', location: 'Bangalore, India', salary: '₹18,00,000 - ₹28,00,000', match_score: 85, portal: 'naukri', job_url: 'https://www.naukri.com/razorpay-jobs' },
-              { id: 6, job_title: 'Software Engineer', company: 'Flipkart', location: 'Bangalore, India', salary: '₹15,00,000 - ₹25,00,000', match_score: 82, portal: 'naukri', job_url: 'https://www.naukri.com/flipkart-jobs' }
+              { id: 6, job_title: 'Software Engineer', company: 'Flipkart', location: 'Bangalore, India', salary: '₹15,00,000 - ₹25,00,000', match_score: 82, portal: 'naukri', job_url: 'https://www.naukri.com/flipkart-jobs' },
+              { id: 7, job_title: 'Senior Software Engineer', company: 'Google', location: 'India (On-site)', salary: '₹35,00,000 - ₹60,00,000', match_score: 95, portal: 'naukri', job_url: 'https://www.google.com/about/careers' },
+              { id: 8, job_title: 'Cloud Architect', company: 'Amazon', location: 'India (On-site)', salary: '₹25,00,000 - ₹45,00,000', match_score: 90, portal: 'naukri', job_url: 'https://amazon.jobs' },
+              { id: 9, job_title: 'Staff Frontend Engineer', company: 'Airbnb', location: 'Global Remote', salary: '$160,000 - $240,000 USD', match_score: 92, portal: 'remoteok', job_url: 'https://remoteok.com' },
+              { id: 10, job_title: 'Principal Designer', company: 'Stripe', location: 'Global Remote', salary: '$180,000 - $280,000 USD', match_score: 89, portal: 'remoteok', job_url: 'https://remoteok.com' }
             ];
             mockDb.matches = mockJobs;
-            return res.end(JSON.stringify({ jobs: mockJobs, count: 6 }));
+            return res.end(JSON.stringify({ jobs: mockJobs, count: 10 }));
           }
 
           if ((path === '/api/auto-apply' || path === '/api/auto-apply-real') && req.method === 'POST') {

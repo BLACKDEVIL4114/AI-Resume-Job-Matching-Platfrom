@@ -26,52 +26,34 @@ export default function ResumeUpload({ onResumeUploaded }: Props) {
     try {
       console.log('Uploading file:', file.name, file.type, file.size);
       
-      // For demo purposes, we'll extract text content from the filename and create sample content
-      // In production, you'd use a PDF parsing library or backend service
-      const sampleContent = `Resume: ${file.name}
-      
-This is a sample resume content for demonstration purposes.
+      let content = "";
+      let isBinary = false;
 
-PROFESSIONAL SUMMARY
-Experienced professional with expertise in software development, project management, and team leadership.
+      if (file.type === "text/plain") {
+        content = await file.text();
+      } else {
+        // For PDF/Binary, we send base64 to the backend
+        isBinary = true;
+        content = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const base64 = (reader.result as string).split(',')[1];
+            resolve(base64);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      }
 
-EXPERIENCE
-Senior Software Engineer - Tech Company (2020-Present)
-- Led development of web applications using modern frameworks
-- Managed cross-functional teams and agile development processes
-- Implemented CI/CD pipelines and cloud infrastructure
-
-Software Developer - Startup Inc (2018-2020)
-- Developed full-stack applications using JavaScript, React, Node.js
-- Collaborated with designers and product managers
-- Participated in code reviews and technical discussions
-
-EDUCATION
-Bachelor of Technology in Computer Science
-University Name, 2014-2018
-
-SKILLS
-Programming: JavaScript, Python, Java, React, Node.js, SQL
-Tools: Git, Docker, AWS, Jenkins, Jira
-Soft Skills: Leadership, Communication, Problem-solving, Agile methodologies
-
-PROJECTS
-- E-commerce Platform: Built scalable web application
-- Mobile App: Developed cross-platform mobile application
-- Data Analytics Dashboard: Created real-time analytics system
-
-CERTIFICATIONS
-- AWS Certified Solutions Architect
-- Scrum Master Certification`;
-
-      console.log('Sending to API...');
+      console.log('Sending to API...', isBinary ? '(Binary/Base64)' : '(Text)');
       const res = await fetch('/api/resumes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           filename: file.name,
-          content: sampleContent,
-          file_type: file.type
+          content: content,
+          file_type: file.type,
+          is_binary: isBinary
         })
       });
 

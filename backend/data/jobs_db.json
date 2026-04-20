@@ -448,5 +448,41 @@
     "salary": "$0 - $0 USD",
     "job_url": "https://remoteOK.com/remote-jobs/remote-banking-full-stack-software-developer-tscm-43657-eleks-1131120",
     "description": "\nELEKS&nbsp;<a href=\"https://careers.eleks.com/about/software-engineering-development-office/\">Software Engineering and Development Office </a>is looking for a Senior Full-Stack (.NET + Angular) Developer in Poland, Croatia or Ukraine.\n<h4>ABOUT PROJECT</h4>\nOur client is a US-based leading national services and online solutions provider to community banks and credit unions.\n\\n<br>REQUIREMENTS<div>\n<ul>\n<li>7+ years of professional software engineering experience with a strong focus on .NET</li>\n<li>Proven expertise in ASP.NET MVC, .NET Core / .NET 6+, and building production-grade web applications and RESTful APIs</li>\n<li>Strong JavaScript skills, specifically with the Angular framework</li>\n<li>Hands-on experience with Azure, including Functions, App Services, Data Factory, Logic Apps, and Fabric</li>\n<li>SQL experience, including writing and performance tuning of complex queries and stored procedures will be a plus</li>\n<li>Strong un"
+  },
+  {
+    "id": 51,
+    "title": "Senior Solutions Architect",
+    "company": "Google",
+    "location": "Bangalore, India",
+    "salary": "₹40,00,000 - ₹70,00,000",
+    "job_url": "https://www.google.com/about/careers",
+    "description": "Building next-generation cloud solutions for enterprise clients in India and beyond."
+  },
+  {
+    "id": 52,
+    "title": "Staff Engineer - Infrastructure",
+    "company": "Amazon",
+    "location": "Hyderabad, India",
+    "salary": "₹35,00,000 - ₹55,00,000",
+    "job_url": "https://amazon.jobs",
+    "description": "Designing and implementing highly scalable distributed systems for Amazon Web Services."
+  },
+  {
+    "id": 53,
+    "title": "Lead Software Engineer",
+    "company": "Stripe",
+    "location": "Global Remote",
+    "salary": "$170,000 - $260,000 USD",
+    "job_url": "https://remoteok.com",
+    "description": "Join the team building the economic infrastructure for the internet. This is a globally remote position."
+  },
+  {
+    "id": 54,
+    "title": "Product Design Lead",
+    "company": "Airbnb",
+    "location": "Global Remote",
+    "salary": "$150,000 - $230,000 USD",
+    "job_url": "https://remoteok.com",
+    "description": "Help design the future of travel and belonging. Work from anywhere in the world."
   }
 ]

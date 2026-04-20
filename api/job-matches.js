@@ -4,14 +4,14 @@ import supabase, { ensureAwake } from './_supabase.js';
 function matchJobs(resumeContent) {
   const lowerContent = resumeContent.toLowerCase();
   const allJobs = [
-    { title: 'Full Stack Developer', company: 'TechCorp', location: 'Bangalore', salary: '₹8-12 LPA', match: 0, portal: 'naukri', url: 'https://naukri.com/job/12345' },
-    { title: 'Frontend Developer', company: 'StartupXYZ', location: 'Remote', salary: '₹6-10 LPA', match: 0, portal: 'internshala', url: 'https://internshala.com/job/67890' },
-    { title: 'Backend Engineer', company: 'CloudSoft', location: 'Hyderabad', salary: '₹10-15 LPA', match: 0, portal: 'linkedin', url: 'https://linkedin.com/jobs/view/11111' },
-    { title: 'DevOps Engineer', company: 'InfraTech', location: 'Pune', salary: '₹12-18 LPA', match: 0, portal: 'naukri', url: 'https://naukri.com/job/22222' },
-    { title: 'Data Analyst', company: 'DataCo', location: 'Mumbai', salary: '₹7-11 LPA', match: 0, portal: 'company_website', url: 'https://dataco.com/careers/analyst' },
-    { title: 'Software Engineer Intern', company: 'MegaCorp', location: 'Delhi', salary: '₹20k/month', match: 0, portal: 'internshala', url: 'https://internshala.com/job/33333' },
-    { title: 'ML Engineer', company: 'AI Labs', location: 'Bangalore', salary: '₹15-25 LPA', match: 0, portal: 'linkedin', url: 'https://linkedin.com/jobs/view/44444' },
-    { title: 'React Developer', company: 'WebStudio', location: 'Remote', salary: '₹8-14 LPA', match: 0, portal: 'company_website', url: 'https://webstudio.io/jobs/react-dev' }
+    { title: 'Full Stack Developer', company: 'TechCorp', location: 'Bangalore', salary: '₹8-12 LPA', match: 0, portal: 'naukri', url: 'https://naukri.com/job/12345', job_type: 'On-site' },
+    { title: 'Frontend Developer', company: 'StartupXYZ', location: 'Remote', salary: '₹6-10 LPA', match: 0, portal: 'internshala', url: 'https://internshala.com/job/67890', job_type: 'Remote' },
+    { title: 'Backend Engineer', company: 'CloudSoft', location: 'Hyderabad', salary: '₹10-15 LPA', match: 0, portal: 'linkedin', url: 'https://linkedin.com/jobs/view/11111', job_type: 'On-site' },
+    { title: 'DevOps Engineer', company: 'InfraTech', location: 'Pune', salary: '₹12-18 LPA', match: 0, portal: 'naukri', url: 'https://naukri.com/job/22222', job_type: 'On-site' },
+    { title: 'Data Analyst', company: 'DataCo', location: 'Mumbai', salary: '₹7-11 LPA', match: 0, portal: 'company_website', url: 'https://dataco.com/careers/analyst', job_type: 'On-site' },
+    { title: 'Software Engineer Intern', company: 'MegaCorp', location: 'Delhi', salary: '₹20k/month', match: 0, portal: 'internshala', url: 'https://internshala.com/job/33333', job_type: 'On-site' },
+    { title: 'ML Engineer', company: 'AI Labs', location: 'Bangalore', salary: '₹15-25 LPA', match: 0, portal: 'linkedin', url: 'https://linkedin.com/jobs/view/44444', job_type: 'Remote' },
+    { title: 'React Developer', company: 'WebStudio', location: 'Remote', salary: '₹8-14 LPA', match: 0, portal: 'company_website', url: 'https://webstudio.io/jobs/react-dev', job_type: 'Remote' }
   ];
 
   const skillMatches = {
@@ -71,7 +71,8 @@ export default async function handler(req, res) {
         salary: job.salary,
         match_score: job.match,
         portal: job.portal,
-        job_url: job.url
+        job_url: job.url,
+        job_type: job.job_type
       }));
 
       const { data, error } = await supabase

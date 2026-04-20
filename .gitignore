@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 .vite-source-tags.js
 .vercel
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+backend/scratch/
